@@ -14,6 +14,13 @@ PAL = {
     "J": "#2d3f78",  # jeans
     "W": "#f4f4f4",  # shoes
     "O": "#e07a2a",  # ball
+    "h": "#c9a640",  # hair shadow
+    "s": "#e8a97a",  # skin shadow
+    "b": "#163a7a",  # hoodie shadow
+    "j": "#1f2d58",  # jeans shadow
+    "v": "#bdbdbd",  # shoe sole
+    "K": "#c47f12",  # block shadow
+    "e": "#3f8f3f",  # grass shadow
     "o": "#8a3f10",  # ball seam
     # hay
     "G": "#8a6a1e",
@@ -45,62 +52,8 @@ PAL = {
     "z": "#86e3ff",
 }
 
-PLAYER_A = [
-    "..HHHHHH....",
-    ".HHHHHHHH...",
-    ".HHSSSSHH...",
-    "..SSESSE....",
-    "..SSSSSS....",
-    "...SSSS.....",
-    "..BBLBBB.O..",
-    ".BBBLBBBBOO.",
-    ".B.BBBB.BoO.",
-    ".B.BBBB..O..",
-    "...BBBB.....",
-    "...JJJJ.....",
-    "...JJJJ.....",
-    "..JJ..JJ....",
-    "..WW..WW....",
-    ".WWW..WWW...",
-]
 
-PLAYER_B = [
-    "..HHHHHH....",
-    ".HHHHHHHH...",
-    ".HHSSSSHH...",
-    "..SSESSE....",
-    "..SSSSSS....",
-    "...SSSS.....",
-    "..BBLBBB.O..",
-    ".BBBLBBBBOO.",
-    ".B.BBBB.BoO.",
-    ".B.BBBB..O..",
-    "...BBBB.....",
-    "...JJJJ.....",
-    "..JJJJJJ....",
-    ".JJ....JJ...",
-    "WW......WW..",
-    "WWW.....WWW.",
-]
 
-PLAYER_STAND = [
-    "..HHHHHH....",
-    ".HHHHHHHH...",
-    ".HHSSSSHH...",
-    "..SSESSE....",
-    "..SSSSSS....",
-    "...SSSS.....",
-    "..BBLBBB....",
-    ".BBBLBBBB...",
-    ".B.BBBB.B...",
-    ".B.BBBB.B...",
-    "...BBBB.....",
-    "...JJJJ.....",
-    "...JJJJ.....",
-    "...JJJJ.....",
-    "...WWWW.....",
-    "..WWWWWW....",
-]
 
 HAY_BALE = [
     "...GGGGGGGG...",
@@ -128,26 +81,6 @@ SQUARE_BALE = [
     "GGGGGGGGGGGGGGGG",
 ]
 
-BLOCK = [
-    "kkkkkkkkkkkkkkkk",
-    "klggggggggggggkk",
-    "kggggggggggggggk",
-    "kggggggkkgggggk",
-    "kgggggkkkkggggk",
-    "kgggggkkkkggggk",
-    "kgggggkkkkggggk",
-    "kgggggkkkkggggk",
-    "kggggggkkgggggk",
-    "kggggggkkgggggk",
-    "kggggggggggggggk",
-    "kggggggkkgggggk",
-    "kggggggkkgggggk",
-    "kggggggggggggggk",
-    "kkggggggggggggkk",
-    "kkkkkkkkkkkkkkkk",
-]
-# pad rows to 16
-BLOCK = [r.ljust(16, "k") for r in BLOCK]
 
 USED_BLOCK = [
     "kkkkkkkkkkkkkkkk",
@@ -179,17 +112,6 @@ BRICK = [
     "uuuuuuuuuuuuuuuu",
 ]
 
-GROUND = [
-    "pPpPpPpPpPpPpPpP",
-    "pppppppppppppppp",
-    "ddddddddddddddd",
-    "TTTTTTTTTTTTTTTT",
-    "TtTTTTtTTTtTTTTT",
-    "TTTTTTTTTTTTTTTT",
-    "TTTtTTTTTTTTTtTT",
-    "uuuuuuuuuuuuuuuu",
-]
-GROUND = [r.ljust(16, r[-1]) for r in GROUND]
 
 COIN = [
     "..cccc..",
@@ -202,15 +124,6 @@ COIN = [
     "..cccc..",
 ]
 
-CLOUD = [
-    ".....wwww.......",
-    "...wwwwwwww.....",
-    "..wwwwwwwwww.ww.",
-    ".wwwwwwwwwwwwwww",
-    "wwwwwwwwwwwwwwww",
-    "wwwwwwwwwwwwwwww",
-    ".aaaaaaaaaaaaaa.",
-]
 
 BUSH = [
     ".....pp.........",
@@ -392,3 +305,10 @@ MIC = [
     ".mmmmmm.",
     "...mm...",
 ]
+
+PLAYER_A = ['....nnnnnnnn....', '...nHHHHHHHHn...', '..nHHHHHHHHHHn..', '..nHhHHHHHHhHn..', '..nHSSSSSSSSHn..', '..nSSESSSSESSn..', '..nSSSSSSSSSSn..', '...nSSsSSsSSn...', '....nSSSSSSn....', '...nnBBBBBBnn...', '..nBBLBBBBBBBn..', '..nBBLBBBBBBBnO.', '..nBnBBBBBBnBnOO', '..nSn.BBBB.nSnoO', '..nnn.BbBB.nnn.O', '.....nBBbBn.....', '.....nJJJJn.....', '.....nJJJJn.....', '....nJJnnJJn....', '....nJJn.nJJn...', '....nJjn.nJjn...', '....nWWn.nWWn...', '...nWWWn.nWWWn..', '...nvvvn.nvvvn..']
+PLAYER_B = ['....nnnnnnnn....', '...nHHHHHHHHn...', '..nHHHHHHHHHHn..', '..nHhHHHHHHhHn..', '..nHSSSSSSSSHn..', '..nSSESSSSESSn..', '..nSSSSSSSSSSn..', '...nSSsSSsSSn...', '....nSSSSSSn....', '...nnBBBBBBnn...', '..nBBLBBBBBBBn..', '..nBBLBBBBBBBnO.', '..nBnBBBBBBnBnOO', '..nSn.BBBB.nSnoO', '..nnn.BbBB.nnn.O', '.....nBBbBn.....', '.....nJJJJn.....', '....nJJJJJJn....', '...nJJn..nJJn...', '..nJJn....nJJn..', '..nJjn....nJjn..', '.nWWn......nWWn.', '.nWWWn....nWWWn.', '.nvvvn....nvvvn.']
+PLAYER_STAND = ['....nnnnnnnn....', '...nHHHHHHHHn...', '..nHHHHHHHHHHn..', '..nHhHHHHHHhHn..', '..nHSSSSSSSSHn..', '..nSSESSSSESSn..', '..nSSSSSSSSSSn..', '...nSSsSSsSSn...', '....nSSSSSSn....', '...nnBBBBBBnn...', '..nBBLBBBBBBBn..', '..nBBLBBBBBBBn..', '..nBnBBBBBBnBn..', '..nSn.BBBB.nSn..', '..nnn.BbBB.nnn..', '.....nBBbBn.....', '.....nJJJJn.....', '.....nJJJJn.....', '.....nJJJJn.....', '.....nJjJjn.....', '.....nJjJjn.....', '.....nWWWWn.....', '....nWWWWWWn....', '....nvvvvvvn....']
+BLOCK = ['kkkkkkkkkkkkkkkk', 'klllllllllllllKk', 'klggggggggggggKk', 'klgggggkkkggggKk', 'klgggggkkkggggKk', 'klgggggkkkggggKk', 'klgggggkkkggggKk', 'klgggggkkkggggKk', 'klggggggkgggggKk', 'klggggggggggggKk', 'klgggggkkkggggKk', 'klgggggkkkggggKk', 'klggggggggggggKk', 'klggggggggggggKk', 'kKKKKKKKKKKKKKKk', 'kkkkkkkkkkkkkkkk']
+GROUND = ['PpPPpPPPPpPPPpPP', 'pppppppppppppppp', 'eeeeeeeeeeeeeeee', 'uuuuuuuuuuuuuuuu', 'TTTTTtTTTTTTtTTT', 'TTTTTTTTTTTTTTTT', 'TtTTTTTTTtTTTTTT', 'TTTTTTTTTTTTTTTT']
+CLOUD = ['.....nnnn.......', '....nwwwwn......', '...nwwwwwwn.nnn.', '..nwwwwwwwwnwwwn', '.nwwwwwwwwwwwwwn', 'nwwwwwwwwwwwwwwn', 'nwaawwwwaawwwwan', '.nnnnnnnnnnnnnn.']

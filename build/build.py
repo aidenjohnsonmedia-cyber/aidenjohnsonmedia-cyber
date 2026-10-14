@@ -19,7 +19,10 @@ GOLD = "#e7c45a"
 
 
 def head(w, h, label, bg=None):
-    bgrect = f'<rect width="{w}" height="{h}" fill="{bg}"/>' if bg else ""
+    if bg == SKY:
+        bgrect = f'<defs><linearGradient id="skyg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f9df5"/><stop offset="1" stop-color="#a6dbff"/></linearGradient></defs><rect width="{w}" height="{h}" fill="url(#skyg)"/>'
+    else:
+        bgrect = f'<rect width="{w}" height="{h}" fill="{bg}"/>' if bg else ""
     return f'''<svg xmlns="http://www.w3.org/2000/svg" width="{w}" height="{h}" viewBox="0 0 {w} {h}" role="img" aria-label="{label}" shape-rendering="crispEdges">
 <defs><style>
 @font-face{{font-family:'PS2P';src:url(data:font/woff2;base64,{FONT_B64}) format('woff2');}}
@@ -60,6 +63,8 @@ def pipe(x, y, h, scale=4):
     w = 14 * scale
     lip = 4 * scale
     return (
+        f'<rect x="{x - 2 * scale}" y="{y - scale}" width="{w + 4 * scale}" height="{lip + 2 * scale}" fill="#1a1a1a"/>'
+        f'<rect x="{x - scale}" y="{y + lip}" width="{w + 2 * scale}" height="{h - lip}" fill="#1a1a1a"/>'
         f'<rect x="{x - scale}" y="{y}" width="{w + 2 * scale}" height="{lip}" fill="#2fa84f"/>'
         f'<rect x="{x - scale}" y="{y}" width="{scale}" height="{lip}" fill="#7be37a"/>'
         f'<rect x="{x + w - scale}" y="{y}" width="{2 * scale}" height="{lip}" fill="#1b6b2f"/>'
@@ -70,7 +75,8 @@ def pipe(x, y, h, scale=4):
 
 
 def hill(cx, base, r, fill="#3f9b47"):
-    return f'<path d="M{cx - r} {base} A{r} {r} 0 0 1 {cx + r} {base} Z" fill="{fill}"/>'
+    return (f'<path d="M{cx - r} {base} A{r} {r} 0 0 1 {cx + r} {base} Z" fill="#1f5a2a"/>'
+            f'<path d="M{cx - r + 4} {base} A{r - 4} {r - 4} 0 0 1 {cx + r - 4} {base} Z" fill="{fill}"/>')
 
 
 def frame(w, h, inner=12, border=GOLD):
@@ -117,7 +123,7 @@ def header():
     # crow flying
     s += f'<g>{px(CROW, 3, 0, 0)}<animateTransform attributeName="transform" type="translate" from="960 60" to="-60 90" dur="16s" repeatCount="indefinite"/></g>'
     # player running in place
-    s += px(PLAYER_A, 4, 120, gy - 64, 'class="fa"') + px(PLAYER_B, 4, 120, gy - 64, 'class="fb"')
+    s += px(PLAYER_A, 4, 120, gy - 96, 'class="fa"') + px(PLAYER_B, 4, 120, gy - 96, 'class="fb"')
     # ground
     s += ground_strip(W, gy, 4, anim=True)
     s += t(872, gy - 12, "PRESS START", 9, "#fff", "end", 'class="blink"')
@@ -190,7 +196,7 @@ def scene_gym(x, y, w, h):
     s += t(x + 115, y + 34, "STOUT", 9, "#ff5a5a", "middle") + t(x + 115, y + 52, "BLUE DEVILS", 7, "#86e3ff", "middle")
     s += px(HOOP, 3, x + w - 80, gy - 110)
     s += f'<rect x="{x + w - 30}" y="{gy - 70}" width="6" height="70" fill="#8f8f8f"/>'
-    s += px(PLAYER_STAND, 3, x + 40, gy - 48)
+    s += px(PLAYER_STAND, 3, x + 40, gy - 72)
     ball = ["..OO..", ".OOOO.", "OOoOOO", "OOOoOO", ".OOOO.", "..OO.."]
     s += f'<g>{px(ball, 3, x + 88, gy - 18)}<animateTransform attributeName="transform" type="translate" values="0 0;0 -70;0 0" keyTimes="0;.5;1" calcMode="spline" keySplines=".2 .8 .4 1;.6 0 .8 .2" dur="1s" repeatCount="indefinite"/></g>'
     return s
@@ -271,9 +277,9 @@ def scene_studio(x, y, w, h):
         s += f'<path d="M{x + 192 + i * 16} {y + 70} q 10 10 0 20" fill="none" stroke="#86e3ff" stroke-width="3" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin="{i * .3}s" repeatCount="indefinite"/></path>'
         s += f'<path d="M{x + 108 - i * 16} {y + 70} q -10 10 0 20" fill="none" stroke="#86e3ff" stroke-width="3" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin="{i * .3}s" repeatCount="indefinite"/></path>'
     # player at the desk
-    s += px(PLAYER_STAND, 3, x + 40, y + h - 98)
+    s += px(PLAYER_STAND, 3, x + 40, y + h - 122)
     # headphones hint: two dark blocks beside the head
-    s += f'<rect x="{x + 40}" y="{y + h - 92}" width="6" height="12" fill="#1a1a2e"/><rect x="{x + 70}" y="{y + h - 92}" width="6" height="12" fill="#1a1a2e"/>'
+    s += f'<rect x="{x + 44}" y="{y + h - 110}" width="6" height="14" fill="#1a1a2e"/><rect x="{x + 78}" y="{y + h - 110}" width="6" height="14" fill="#1a1a2e"/>'
     return s
 
 
@@ -361,7 +367,7 @@ def worldmap():
         if st == "cleared":
             s += px(FLAG, 2, x - 6, yy - 56)
         if st == "here":
-            s += px(PLAYER_STAND, 3, x - 18, yy - 70)
+            s += px(PLAYER_STAND, 3, x - 24, yy - 94)
             s += f'<g class="bob">{t(x, yy - 80, "YOU ARE HERE", 8, "#fff", "middle")}</g>'
     write("worldmap.svg", s)
 
@@ -391,7 +397,7 @@ def complete():
     s += f'<g>{px(FLAG[:5], 4, 156, gy - 190)}<animateTransform attributeName="transform" type="translate" values="0 0;0 140;0 140;0 0" keyTimes="0;.4;.9;1" dur="8s" repeatCount="indefinite"/></g>'
     s += px(BRICK, 4, 134, gy - 32)
     s += px(CASTLE, 5, 700, gy - 60)
-    s += px(PLAYER_STAND, 4, 210, gy - 64)
+    s += px(PLAYER_STAND, 4, 210, gy - 96)
     s += f'<g class="bob">{px(COIN, 3, 250, gy - 100)}</g>'
     s += ground_strip(W, gy, 4)
     write("course-clear.svg", s)
