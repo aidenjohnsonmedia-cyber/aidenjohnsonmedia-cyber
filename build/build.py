@@ -253,6 +253,54 @@ def haywire_card():
     write("level-1.svg", s)
 
 
+# ---------------------------------------------------------------- odd lots bonus stage
+def scene_studio(x, y, w, h):
+    s = f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#2a1020"/>'
+    for i in range(0, w, 20):
+        s += f'<rect x="{x + i}" y="{y}" width="2" height="{h}" fill="#351527"/>'
+    # ON AIR sign
+    s += f'<rect x="{x + 100}" y="{y + 18}" width="100" height="34" fill="#1a1a2e" stroke="#ff5a5a" stroke-width="3"/>'
+    s += t(x + 150, y + 41, "ON AIR", 10, "#ff5a5a", "middle", 'class="blink"')
+    # desk
+    s += f'<rect x="{x}" y="{y + h - 50}" width="{w}" height="50" fill="#5a3a2a"/><rect x="{x}" y="{y + h - 50}" width="{w}" height="6" fill="#7a5038"/>'
+    # mic on a stand
+    s += f'<rect x="{x + 150}" y="{y + 90}" width="6" height="60" fill="#8f8f8f"/>'
+    s += px(MIC, 5, x + 133, y + 60)
+    # sound waves
+    for i in range(3):
+        s += f'<path d="M{x + 192 + i * 16} {y + 70} q 10 10 0 20" fill="none" stroke="#86e3ff" stroke-width="3" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin="{i * .3}s" repeatCount="indefinite"/></path>'
+        s += f'<path d="M{x + 108 - i * 16} {y + 70} q -10 10 0 20" fill="none" stroke="#86e3ff" stroke-width="3" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin="{i * .3}s" repeatCount="indefinite"/></path>'
+    # player at the desk
+    s += px(PLAYER_STAND, 3, x + 40, y + h - 98)
+    # headphones hint: two dark blocks beside the head
+    s += f'<rect x="{x + 40}" y="{y + h - 92}" width="6" height="12" fill="#1a1a2e"/><rect x="{x + 70}" y="{y + h - 92}" width="6" height="12" fill="#1a1a2e"/>'
+    return s
+
+
+def oddlots_card():
+    W, H = 900, 230
+    s = head(W, H, "Bonus stage: Bloomberg Odd Lots")
+    s += frame(W, H, border="#ff5a5a")
+    s += '<clipPath id="sc"><rect x="20" y="20" width="300" height="190"/></clipPath>'
+    s += '<g clip-path="url(#sc)">' + scene_studio(20, 20, 300, 190) + "</g>"
+    s += '<rect x="20" y="20" width="300" height="190" fill="none" stroke="#2b2b4d" stroke-width="2"/>'
+    x = 352
+    s += t(x, 52, "BONUS STAGE  ·  BLOOMBERG", 9, "#ff5a5a") + t(W - 28, 52, "JUNE 12, 2026", 9, "#9fa8c8", "end")
+    s += t(x, 86, "ODD LOTS", 22, "#fff")
+    s += t(x, 108, "with Joe Weisenthal and Tracy Alloway", 9, "#86e3ff")
+    lines = [
+        '"How a Vibecoded Newsletter Is Making the',
+        'Hay Market More Transparent." A 20-year-old',
+        "college student explains why nobody knows",
+        "what hay costs, and what he built about it.",
+    ]
+    for i, ln in enumerate(lines):
+        s += t(x, 136 + i * 14, ln, 8, "#d8d8e8")
+    s += px(FLAG[:5], 2, x, 186) + t(x + 22, 198, "STAGE CLEARED  ·  ON AIR", 9, "#7be37a")
+    s += t(W - 28, 198, "LISTEN ▶", 9, "#ffd23f", "end", 'class="blink"')
+    write("bonus-oddlots.svg", s)
+
+
 # ---------------------------------------------------------------- power-ups
 def powerups():
     W, H = 900, 210
@@ -338,13 +386,6 @@ def complete():
         s += f'<g opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.01;.95;1" dur="8s" begin="{d}s" repeatCount="indefinite"/>' + t(px0 + 20, y, k, 8, "#fff") + t(px0 + pw - 20, y, v, 9, GOLD, "end") + "</g>"
     s += f'<rect x="{px0 + 16}" y="{py0 + 176}" width="{pw - 32}" height="2" fill="#2b2b4d"/>'
     s += f'<g opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.01;.95;1" dur="8s" begin="3.2s" repeatCount="indefinite"/>' + t(px0 + pw / 2, py0 + 194, "BONUS STAGE UNLOCKED", 8, "#7be37a", "middle") + "</g>"
-    # bonus stage badge: Bloomberg Odd Lots
-    bx, by = 640, 96
-    s += f'<g opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.01;.95;1" dur="8s" begin="3.6s" repeatCount="indefinite"/>'
-    s += f'<rect x="{bx}" y="{by}" width="232" height="92" fill="#1a1a2e" stroke="#ff5a5a" stroke-width="4"/>'
-    s += px(MIC, 4, bx + 14, by + 16)
-    s += t(bx + 56, by + 26, "BONUS STAGE", 8, "#ff5a5a") + t(bx + 56, by + 46, "BLOOMBERG", 10, "#fff") + t(bx + 56, by + 62, "ODD LOTS", 10, "#fff") + t(bx + 56, by + 80, "ON AIR  ·  JUNE 2026", 7, "#9fa8c8")
-    s += "</g>"
     # flagpole with flag sliding down
     s += f'<rect x="150" y="{gy - 200}" width="6" height="200" fill="#8f8f8f"/><circle cx="153" cy="{gy - 204}" r="8" fill="#7be37a"/>'
     s += f'<g>{px(FLAG[:5], 4, 156, gy - 190)}<animateTransform attributeName="transform" type="translate" values="0 0;0 140;0 140;0 0" keyTimes="0;.4;.9;1" dur="8s" repeatCount="indefinite"/></g>'
@@ -353,7 +394,7 @@ def complete():
     s += px(PLAYER_STAND, 4, 210, gy - 64)
     s += f'<g class="bob">{px(COIN, 3, 250, gy - 100)}</g>'
     s += ground_strip(W, gy, 4)
-    write("complete.svg", s)
+    write("course-clear.svg", s)
 
 
 # ---------------------------------------------------------------- buttons + dialog
@@ -394,10 +435,12 @@ if __name__ == "__main__":
            "D2 at Jamestown before that. Runs a company",
            "between practices. Teammates with his brother."],
           "IN SEASON  ·  NO DAYS OFF", "#ffd23f", "", scene_gym)
+    oddlots_card()
     powerups()
     worldmap()
     complete()
     button("btn-email.svg", "EMAIL", "#d64545", "#8c1d1d")
     button("btn-site.svg", "HAYWIREAG.COM", "#2f6fd6", "#1b3f8a")
     button("btn-x.svg", "X / @aidenjohnsonn_", "#1a1a2e", "#000")
+    button("btn-linkedin.svg", "LINKEDIN", "#0a66c2", "#064a8c")
     dialog()
