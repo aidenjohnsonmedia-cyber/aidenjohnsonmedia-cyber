@@ -19,11 +19,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/level-3.svg" width="900" alt="World 1-3: D3 hooper at UW-Stout" />
-</p>
-
-<p align="center">
-  <a href="https://www.bloomberg.com/oddlots"><img src="assets/bonus-oddlots.svg" width="900" alt="Bonus stage: Bloomberg Odd Lots, June 12 2026" /></a>
+  <img src="assets/level-3.svg" width="900" alt="World 1-3: Johnson Skills Academy, basketball training" />
 </p>
 
 <p align="center">
@@ -35,7 +31,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/powerups.svg" width="900" alt="Power-ups: hay, scaling, USDA data, field network, cron jobs, cold email" />
+  <img src="assets/powerups.svg" width="900" alt="Python, Supabase, Netlify, GitHub Actions, Beehiiv, Claude Code" />
 </p>
 
 <p align="center">
@@ -55,7 +51,7 @@
 </p>
 
 <p align="center">
-  <img src="assets/complete.svg" width="900" alt="Course clear. 750+ subscribers, 134+ regions, 125K+ price records." />
+  <img src="assets/complete.svg" width="900" alt="Course clear. 270+ subscribers, 134+ markets, 25 states." />
 </p>
 
 <p align="center">
