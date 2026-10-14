@@ -13,7 +13,7 @@ async def main():
         b = await p.chromium.launch()
         pg = await b.new_page(viewport={"width": 980, "height": 900})
         await pg.goto(f"file://{ROOT}/build/preview.html")
-        await pg.wait_for_timeout(1500)
+        await pg.wait_for_timeout(6500)
         await pg.screenshot(path=str(ROOT / "build" / "preview.png"), full_page=True)
         await b.close()
 

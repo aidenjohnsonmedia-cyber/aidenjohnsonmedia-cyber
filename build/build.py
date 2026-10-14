@@ -105,7 +105,7 @@ def header():
     s += t(300, 172, "HAYWIRE AG  ·  UW-STOUT  ·  MINNESOTA", 8, "#eaf6ff")
     # HUD
     s += t(28, 34, "AIDEN", 10, "#fff") + t(28, 52, "HAYWIRE", 10, GOLD)
-    s += px(COIN, 2, 300, 24) + t(322, 38, "x270", 10, "#fff")
+    s += px(COIN, 2, 300, 24) + t(322, 38, "x750", 10, "#fff")
     s += t(520, 34, "WORLD", 10, "#fff") + t(520, 52, " 1-1", 10, "#fff")
     s += t(760, 34, "TIME", 10, "#fff") + t(760, 52, " 999", 10, "#fff")
     # blocks over the player
@@ -243,7 +243,7 @@ def haywire_card():
     # stat strip across the bottom
     sy = 270
     s += f'<rect x="20" y="{sy}" width="{W - 40}" height="40" fill="#0f0f22" stroke="#2b2b4d" stroke-width="2"/>'
-    stats = [("134+", "MARKETS"), ("25", "STATES"), ("270+", "SUBSCRIBERS"), ("WEEKLY", "SINCE FEB 26"), ("ODD LOTS", "BLOOMBERG · JUN 26")]
+    stats = [("134+", "REGIONS"), ("125K+", "PRICE RECORDS"), ("750+", "SUBSCRIBERS"), ("WEEKLY", "SINCE FEB 26"), ("ODD LOTS", "BLOOMBERG · JUN 26")]
     gap = (W - 40) / len(stats)
     for i, (v, k) in enumerate(stats):
         cx = 20 + gap * i + gap / 2
@@ -251,6 +251,54 @@ def haywire_card():
         if i:
             s += f'<rect x="{int(20 + gap * i)}" y="{sy + 6}" width="2" height="28" fill="#2b2b4d"/>'
     write("level-1.svg", s)
+
+
+# ---------------------------------------------------------------- odd lots bonus stage
+def scene_studio(x, y, w, h):
+    s = f'<rect x="{x}" y="{y}" width="{w}" height="{h}" fill="#2a1020"/>'
+    for i in range(0, w, 20):
+        s += f'<rect x="{x + i}" y="{y}" width="2" height="{h}" fill="#351527"/>'
+    # ON AIR sign
+    s += f'<rect x="{x + 100}" y="{y + 18}" width="100" height="34" fill="#1a1a2e" stroke="#ff5a5a" stroke-width="3"/>'
+    s += t(x + 150, y + 41, "ON AIR", 10, "#ff5a5a", "middle", 'class="blink"')
+    # desk
+    s += f'<rect x="{x}" y="{y + h - 50}" width="{w}" height="50" fill="#5a3a2a"/><rect x="{x}" y="{y + h - 50}" width="{w}" height="6" fill="#7a5038"/>'
+    # mic on a stand
+    s += f'<rect x="{x + 150}" y="{y + 90}" width="6" height="60" fill="#8f8f8f"/>'
+    s += px(MIC, 5, x + 133, y + 60)
+    # sound waves
+    for i in range(3):
+        s += f'<path d="M{x + 192 + i * 16} {y + 70} q 10 10 0 20" fill="none" stroke="#86e3ff" stroke-width="3" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin="{i * .3}s" repeatCount="indefinite"/></path>'
+        s += f'<path d="M{x + 108 - i * 16} {y + 70} q -10 10 0 20" fill="none" stroke="#86e3ff" stroke-width="3" opacity="0"><animate attributeName="opacity" values="0;1;0" dur="1.2s" begin="{i * .3}s" repeatCount="indefinite"/></path>'
+    # player at the desk
+    s += px(PLAYER_STAND, 3, x + 40, y + h - 98)
+    # headphones hint: two dark blocks beside the head
+    s += f'<rect x="{x + 40}" y="{y + h - 92}" width="6" height="12" fill="#1a1a2e"/><rect x="{x + 70}" y="{y + h - 92}" width="6" height="12" fill="#1a1a2e"/>'
+    return s
+
+
+def oddlots_card():
+    W, H = 900, 230
+    s = head(W, H, "Bonus stage: Bloomberg Odd Lots")
+    s += frame(W, H, border="#ff5a5a")
+    s += '<clipPath id="sc"><rect x="20" y="20" width="300" height="190"/></clipPath>'
+    s += '<g clip-path="url(#sc)">' + scene_studio(20, 20, 300, 190) + "</g>"
+    s += '<rect x="20" y="20" width="300" height="190" fill="none" stroke="#2b2b4d" stroke-width="2"/>'
+    x = 352
+    s += t(x, 52, "BONUS STAGE  ·  BLOOMBERG", 9, "#ff5a5a") + t(W - 28, 52, "JUNE 12, 2026", 9, "#9fa8c8", "end")
+    s += t(x, 86, "ODD LOTS", 22, "#fff")
+    s += t(x, 108, "with Joe Weisenthal and Tracy Alloway", 9, "#86e3ff")
+    lines = [
+        '"How a Vibecoded Newsletter Is Making the',
+        'Hay Market More Transparent." A 20-year-old',
+        "college student explains why nobody knows",
+        "what hay costs, and what he built about it.",
+    ]
+    for i, ln in enumerate(lines):
+        s += t(x, 136 + i * 14, ln, 8, "#d8d8e8")
+    s += px(FLAG[:5], 2, x, 186) + t(x + 22, 198, "STAGE CLEARED  ·  ON AIR", 9, "#7be37a")
+    s += t(W - 28, 198, "LISTEN ▶", 9, "#ffd23f", "end", 'class="blink"')
+    write("bonus-oddlots.svg", s)
 
 
 # ---------------------------------------------------------------- power-ups
@@ -320,22 +368,31 @@ def worldmap():
 
 # ---------------------------------------------------------------- course clear
 def complete():
-    W, H = 900, 300
+    W, H = 900, 380
     gy = H - 32
     s = head(W, H, "Course clear", SKY)
     s += hill(160, gy, 100) + hill(760, gy, 120, "#2f8a3a")
-    s += shadow_text(450, 70, "COURSE CLEAR!", 22, "#fff", "#1a1a2e", 4, "middle")
-    rows = [("SUBSCRIBERS", "270+"), ("MARKETS", "134+"), ("STATES", "25"), ("TIME BONUS", "999")]
+    s += px(CLOUD, 4, 40, 40) + px(CLOUD, 4, 760, 60)
+    s += shadow_text(450, 56, "COURSE CLEAR!", 22, "#fff", "#1a1a2e", 4, "middle")
+    # tally panel
+    px0, py0, pw, ph = 290, 80, 320, 200
+    s += f'<rect x="{px0}" y="{py0}" width="{pw}" height="{ph}" fill="#1a1a2e" stroke="{GOLD}" stroke-width="4"/>'
+    s += t(px0 + pw / 2, py0 + 26, "HAYWIRE  ·  FINAL TALLY", 9, GOLD, "middle")
+    s += f'<rect x="{px0 + 16}" y="{py0 + 36}" width="{pw - 32}" height="2" fill="#2b2b4d"/>'
+    rows = [("SUBSCRIBERS", "750+"), ("REGIONS", "134+"), ("PRICE RECORDS", "125K+"), ("STATES", "25"), ("WEEKLY ISSUES", "SINCE FEB 26")]
     for i, (k, v) in enumerate(rows):
-        y = 110 + i * 20
-        s += t(330, y, k, 9, "#fff") + t(570, y, v, 9, GOLD, "end")
+        y = py0 + 62 + i * 22
+        d = .4 + i * .5
+        s += f'<g opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.01;.95;1" dur="8s" begin="{d}s" repeatCount="indefinite"/>' + t(px0 + 20, y, k, 8, "#fff") + t(px0 + pw - 20, y, v, 9, GOLD, "end") + "</g>"
+    s += f'<rect x="{px0 + 16}" y="{py0 + 176}" width="{pw - 32}" height="2" fill="#2b2b4d"/>'
+    s += f'<g opacity="0"><animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.01;.95;1" dur="8s" begin="3.2s" repeatCount="indefinite"/>' + t(px0 + pw / 2, py0 + 194, "BONUS STAGE UNLOCKED", 8, "#7be37a", "middle") + "</g>"
     # flagpole with flag sliding down
-    s += f'<rect x="150" y="{gy - 180}" width="6" height="180" fill="#8f8f8f"/><circle cx="153" cy="{gy - 184}" r="8" fill="#7be37a"/>'
-    s += f'<g>{px(FLAG[:5], 4, 156, gy - 170)}<animateTransform attributeName="transform" type="translate" values="0 0;0 120;0 120;0 0" keyTimes="0;.4;.9;1" dur="6s" repeatCount="indefinite"/></g>'
+    s += f'<rect x="150" y="{gy - 200}" width="6" height="200" fill="#8f8f8f"/><circle cx="153" cy="{gy - 204}" r="8" fill="#7be37a"/>'
+    s += f'<g>{px(FLAG[:5], 4, 156, gy - 190)}<animateTransform attributeName="transform" type="translate" values="0 0;0 140;0 140;0 0" keyTimes="0;.4;.9;1" dur="8s" repeatCount="indefinite"/></g>'
     s += px(BRICK, 4, 134, gy - 32)
-    s += px(CASTLE, 5, 660, gy - 60)
-    s += px(PLAYER_STAND, 4, 220, gy - 64)
-    s += px(COIN, 3, 600, 100)
+    s += px(CASTLE, 5, 700, gy - 60)
+    s += px(PLAYER_STAND, 4, 210, gy - 64)
+    s += f'<g class="bob">{px(COIN, 3, 250, gy - 100)}</g>'
     s += ground_strip(W, gy, 4)
     write("complete.svg", s)
 
@@ -378,6 +435,7 @@ if __name__ == "__main__":
            "D2 at Jamestown before that. Runs a company",
            "between practices. Teammates with his brother."],
           "IN SEASON  ·  NO DAYS OFF", "#ffd23f", "", scene_gym)
+    oddlots_card()
     powerups()
     worldmap()
     complete()
