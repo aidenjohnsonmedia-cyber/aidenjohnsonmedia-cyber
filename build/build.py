@@ -186,7 +186,8 @@ def scene_gym(x, y, w, h):
     for i in range(0, w, 24):
         s += f'<rect x="{x + i}" y="{gy}" width="2" height="24" fill="#b5804a"/>'
     s += f'<rect x="{x}" y="{gy + 10}" width="{w}" height="2" fill="#c4904f"/>'
-    s += f'<rect x="{x + 60}" y="{y + 20}" width="120" height="40" fill="#2a1f45"/>' + t(x + 120, y + 46, "HOME 20", 9, "#ff5a5a", "middle")
+    s += f'<rect x="{x + 40}" y="{y + 16}" width="150" height="44" fill="#2a1f45" stroke="#1a1a2e" stroke-width="3"/>'
+    s += t(x + 115, y + 34, "STOUT", 9, "#ff5a5a", "middle") + t(x + 115, y + 52, "BLUE DEVILS", 7, "#86e3ff", "middle")
     s += px(HOOP, 3, x + w - 80, gy - 110)
     s += f'<rect x="{x + w - 30}" y="{gy - 70}" width="6" height="70" fill="#8f8f8f"/>'
     s += px(PLAYER_STAND, 3, x + 40, gy - 48)
@@ -214,28 +215,75 @@ def level(name, world, title, sub, lines, status, status_col, link, scene):
     write(name, s)
 
 
+# ---------------------------------------------------------------- haywire feature card
+def haywire_card():
+    W, H = 900, 330
+    s = head(W, H, "World 1-1: HayWire")
+    s += frame(W, H)
+    s += '<clipPath id="sc"><rect x="20" y="20" width="300" height="190"/></clipPath>'
+    s += '<g clip-path="url(#sc)">' + scene_hay(20, 20, 300, 190) + "</g>"
+    s += '<rect x="20" y="20" width="300" height="190" fill="none" stroke="#2b2b4d" stroke-width="2"/>'
+    x = 352
+    s += t(x, 52, "WORLD 1-1  ·  FLAGSHIP  ·  EST. FEB 2026", 9, GOLD) + t(W - 28, 52, "BOSS", 9, "#ff5a5a", "end")
+    s += t(x, 86, "HAYWIRE", 22, "#fff")
+    s += t(x, 108, "market intelligence for the hay trade", 9, "#86e3ff")
+    lines = [
+        "Hay is one of the biggest field crops in the US and",
+        "it has no exchange, no futures market, and almost no",
+        "price reporting. Most of it trades on handshakes.",
+        "",
+        "HayWire reads every USDA auction report, normalizes",
+        "the grades across states, adds a producer field",
+        "network, and ships one weekly price index.",
+    ]
+    for i, ln in enumerate(lines):
+        s += t(x, 136 + i * 14, ln, 8, "#d8d8e8")
+    s += px(FLAG[:5], 2, x, 236) + t(x + 22, 248, "BOSS CLEARED  ·  PRICE OPACITY", 9, "#7be37a")
+    s += t(W - 28, 248, "haywireag.com ▶", 9, "#ffd23f", "end", 'class="blink"')
+    # stat strip across the bottom
+    sy = 270
+    s += f'<rect x="20" y="{sy}" width="{W - 40}" height="40" fill="#0f0f22" stroke="#2b2b4d" stroke-width="2"/>'
+    stats = [("134+", "MARKETS"), ("25", "STATES"), ("270+", "SUBSCRIBERS"), ("WEEKLY", "SINCE FEB 26"), ("ODD LOTS", "BLOOMBERG · JUN 26")]
+    gap = (W - 40) / len(stats)
+    for i, (v, k) in enumerate(stats):
+        cx = 20 + gap * i + gap / 2
+        s += t(cx, sy + 18, v, 10, GOLD, "middle") + t(cx, sy + 32, k, 7, "#9fa8c8", "middle")
+        if i:
+            s += f'<rect x="{int(20 + gap * i)}" y="{sy + 6}" width="2" height="28" fill="#2b2b4d"/>'
+    write("level-1.svg", s)
+
+
 # ---------------------------------------------------------------- power-ups
 def powerups():
-    W, H = 900, 180
-    s = head(W, H, "Stack")
+    W, H = 900, 210
+    s = head(W, H, "Power-ups")
     s += frame(W, H)
-    items = ["PYTHON", "SUPABASE", "NETLIFY", "ACTIONS", "BEEHIIV", "CLAUDE"]
+    items = [
+        ("HAY", "+1 commodity", HAY_BALE, 2),
+        ("SCALING", "stack it higher", ARROW_UP, 4),
+        ("USDA DATA", "raw material", DOC, 4),
+        ("FIELD NET", "producers who text back", BUBBLE, 4),
+        ("CRON JOBS", "ships while I sleep", CLOCK, 4),
+        ("COLD EMAIL", "the actual growth hack", MAIL, 4),
+    ]
     n = len(items)
     gap = (W - 80) / n
-    for i, name in enumerate(items):
+    for i, (name, effect, spr, sc) in enumerate(items):
         bx = int(40 + gap * i + gap / 2 - 32)
-        d = i * .35
+        d = i * .4
+        sw, sh = size(spr, sc)
         s += (
-            f'<g>{px(COIN, 4, bx + 16, 60)}'
-            f'<animateTransform attributeName="transform" type="translate" values="0 0;0 -36;0 0" keyTimes="0;.5;1" dur="1.6s" begin="{d}s" repeatCount="indefinite"/>'
-            f'<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.1;.6;1" dur="1.6s" begin="{d}s" repeatCount="indefinite"/></g>'
+            f'<g>{px(spr, sc, bx + 32 - sw // 2, 92 - sh)}'
+            f'<animateTransform attributeName="transform" type="translate" values="0 0;0 -40;0 -40;0 0" keyTimes="0;.3;.7;1" dur="2.4s" begin="{d}s" repeatCount="indefinite"/>'
+            f'<animate attributeName="opacity" values="0;1;1;0" keyTimes="0;.15;.7;1" dur="2.4s" begin="{d}s" repeatCount="indefinite"/></g>'
         )
         s += (
-            f'<g>{px(BLOCK, 4, bx, 68)}'
-            f'<animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" keyTimes="0;.2;.5" dur="1.6s" begin="{d}s" repeatCount="indefinite"/></g>'
+            f'<g>{px(BLOCK, 4, bx, 92)}'
+            f'<animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" keyTimes="0;.15;.3" dur="2.4s" begin="{d}s" repeatCount="indefinite"/></g>'
         )
-        s += t(bx + 32, 158, name, 8, "#fff", "middle")
-    s += t(W - 28, 40, "HIT A BLOCK", 8, "#8f8f8f", "end")
+        s += t(bx + 32, 178, name, 8, "#fff", "middle")
+        s += t(bx + 32, 194, effect, 6, "#9fa8c8", "middle")
+    s += t(28, 44, "INVENTORY", 9, GOLD) + t(W - 28, 44, "HIT A BLOCK", 8, "#8f8f8f", "end")
     write("powerups.svg", s)
 
 
@@ -319,21 +367,17 @@ if __name__ == "__main__":
     banner("banner-powerups.svg", "POWER-UPS", COIN)
     banner("banner-map.svg", "WORLD MAP", FLAG[:5])
     banner("banner-clear.svg", "COURSE CLEAR", CASTLE)
-    level("level-1.svg", "WORLD 1-1  ·  FLAGSHIP", "HAYWIRE", "the hay-price level",
-          ["Weekly hay market intelligence for a market with",
-           "no exchange and no futures. USDA auction data from",
-           "134+ markets, delivered to 270+ subscribers."],
-          "CLEARED  ·  LIVE", "#7be37a", "haywireag.com", scene_hay)
+    haywire_card()
     level("level-2.svg", "WORLD 1-2  ·  SYSTEMS", "WIRE INTEL", "the capture-intelligence level",
           ["AI-powered defense capture intelligence. Finds",
            "opportunities, researches them, and briefs the",
            "team before the competition hears about it."],
           "IN PROGRESS  ·  PRIVATE", "#ffd23f", "", scene_night)
-    level("level-3.svg", "WORLD 1-3  ·  SIDE QUEST", "SKILLS ACADEMY", "the basketball level",
-          ["D3 hooper at UW-Stout, D2 before that at",
-           "Jamestown. Johnson Skills Academy trains the",
-           "next class of players. Nobody misses leg day."],
-          "CLEARED  ·  ACTIVE", "#7be37a", "", scene_gym)
+    level("level-3.svg", "WORLD 1-3  ·  THE OTHER FULL-TIME JOB", "D3 HOOPER", "the basketball level",
+          ["Guard for the UW-Stout Blue Devils. Two years of",
+           "D2 at Jamestown before that. Runs a company",
+           "between practices. Teammates with his brother."],
+          "IN SEASON  ·  NO DAYS OFF", "#ffd23f", "", scene_gym)
     powerups()
     worldmap()
     complete()

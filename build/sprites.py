@@ -325,3 +325,70 @@ def px(sprite, scale=4, x=0, y=0, extra_attr=""):
 
 def size(sprite, scale=4):
     return len(sprite[0]) * scale, len(sprite) * scale
+
+
+ARROW_UP = [
+    "...cc...",
+    "..cccc..",
+    ".cccccc.",
+    "cccccccc",
+    "..cCCc..",
+    "..cCCc..",
+    "..cCCc..",
+    "..cccc..",
+]
+
+DOC = [
+    "wwwwww..",
+    "wMMMMww.",
+    "wwwwwwww",
+    "wMMMMMMw",
+    "wwwwwwww",
+    "wMMMMMMw",
+    "wwwwwwww",
+    "wwwwwwww",
+]
+
+BUBBLE = [
+    "zzzzzzzz",
+    "zwwwwwwz",
+    "zwnwnwnz",
+    "zwwwwwwz",
+    "zzzzzzzz",
+    "..zz....",
+    ".zz.....",
+    "zz......",
+]
+
+CLOCK = [
+    "..mmmm..",
+    ".mwwwwm.",
+    "mwwnwwwm",
+    "mwwnwwwm",
+    "mwwnnnwm",
+    "mwwwwwwm",
+    ".mwwwwm.",
+    "..mmmm..",
+]
+
+MAIL = [
+    "wwwwwwww",
+    "wnwwwwnw",
+    "wwnwwnww",
+    "wwwnnwww",
+    "wwnwwnww",
+    "wnwwwwnw",
+    "wwwwwwww",
+    "........",
+]
+
+MIC = [
+    "..rrrr..",
+    ".rrrrrr.",
+    ".rrrrrr.",
+    ".rrrrrr.",
+    "..rrrr..",
+    "m..mm..m",
+    ".mmmmmm.",
+    "...mm...",
+]
